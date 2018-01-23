@@ -249,6 +249,56 @@ oo::class create shodan_api {
         return [my Execute $path GET $data]
     }
 
+    #****p* shodan/httpHeaders
+    # NAME
+    #   httpHeaders
+    #
+    # DESCRIPTION
+    #   Return the HTTP headers that your client sends when connecting to a webserver.
+    #
+    # ARGUMENTS
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s httpHeaders
+    #
+    #******
+    method httpHeaders {} {
+        set path "$Api_url/tools/httpheaders"
+        set data [list key $Api_key]
+        return [my Execute $path GET $data]
+    }
+
+    #****p* shodan/myIp
+    # NAME
+    #   myIp
+    #
+    # DESCRIPTION
+    #   Return my current IP address as seen from the Internet.
+    #
+    # ARGUMENTS
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s myIp
+    #
+    #******
+    method myIp {} {
+        set path "$Api_url/tools/myip"
+        set data [list key $Api_key]
+        return [my Execute $path GET $data]
+    }
+
     #****ip* shodan/Execute
     # NAME
     #   Execute

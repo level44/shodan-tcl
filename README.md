@@ -3,46 +3,57 @@
 
 ### Initialization
 ```
-	set s [shodan new <api_key>]
+set s [shodan new <api_key>]
 
 ```
 
 ### Search methods
 #### ip
 ```
-	$s ip "1.2.3.4"
+$s ip "1.2.3.4"
 ```
 
 #### count
 ```
-	$s count "country:PL CentOS" "city"
+$s count "country:PL CentOS" "city"
 
 ```
 #### search
 ```
-	$s search "country:PL CentOS city:Poznan"
+$s search "country:PL CentOS city:Poznan"
 
 ```
 #### ports
 ```
-	$s ports
+$s ports
 
 ```
 
 ### Shodan On-Demand Scanning
 #### protocols
 ```
-	$s protocols
+$s protocols
 
 ```
 #### scan
 ```
-	$s scan [list 1.2.3.4]
+$s scan [list 1.2.3.4]
 
 ```
 #### scanStatus
 ```
-	$s scanStatus DCabcR7xTnJeuFab
+$s scanStatus DCabcR7xTnJeuFab
+
+```
+### Utility Methods
+#### httpHeaders
+```
+$s httpHeaders
+
+```
+### myIp
+```
+$s myIp
 
 ```
 
@@ -52,7 +63,6 @@
 - Shodan Bulk Data
 - Account Methods
 - DNS Methods
-- Utility Methods
 - API Status Methods
 - Experimental Methods
 - Error Handling
