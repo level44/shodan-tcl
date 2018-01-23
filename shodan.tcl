@@ -3,13 +3,13 @@
 #
 #
 #   ----------------------------------------------------------------------------
-#   Revision: 0.0.1
+#   Revision: 0.0.2
 #   Author: level44
 #
 #   ----------------------------------------------------------------------------
 #****h* /shodan_api
 # DESCRIPTION
-#   Library allows to comunicate with shodan database
+#   Library allows to comunicate with Shodan database
 #
 # Examples
 #
@@ -25,7 +25,7 @@ package require http
 package require TclOO
 package require tls
 package require json
-http::register https 443 [list ::tls::socket -tls1 1]   ;# "-tls1 1" is required since [POODLE]
+http::register https 443 [list ::tls::socket -tls1 1]
 
 oo::class create shodan_api {
     variable Api_key
@@ -163,6 +163,7 @@ oo::class create shodan_api {
     #       second element - dictionary
     #
     # USAGE
+    #   $s ports
     #
     #******
     method ports {} {
@@ -171,6 +172,82 @@ oo::class create shodan_api {
         return [my Execute $path GET $data]
     }
 
+    #****p* shodan/protocols
+    # NAME
+    #   protocols
+    #
+    # DESCRIPTION
+    #   Return all protocols that can be used when performing on-demand Internet scans
+    #
+    # ARGUMENTS
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s protocols
+    #
+    #******
+    method protocols {} {
+        set path "$Api_url/shodan/protocols"
+        set data [list key $Api_key]
+        return [my Execute $path GET $data]
+    }
+
+    #****p* shodan/scan
+    # NAME
+    #   scan
+    #
+    # DESCRIPTION
+    #   Request Shodan to crawl an IP/ netblock
+    #
+    # ARGUMENTS
+    #   ips - list of ips to scan
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s scan [list 1.2.3.4]
+    #
+    #******
+    method scan {ips} {
+        set path "$Api_url/shodan/scan?key=$Api_key"
+        set data [list ips [join $ips ,]]
+        return [my Execute $path POST $data]
+    }
+
+    #****p* shodan/scanStatus
+    # NAME
+    #   scanStatus
+    #
+    # DESCRIPTION
+    #   Request the status of a scan request
+    #
+    # ARGUMENTS
+    #   id - scan id
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s scanStatus DCabcR7xTnJeuFab
+    #
+    #******
+    method scanStatus {id} {
+        set path "$Api_url/shodan/scan/$id"
+        set data [list key $Api_key]
+        return [my Execute $path GET $data]
+    }
 
     #****ip* shodan/Execute
     # NAME

@@ -1,10 +1,52 @@
 # shodan-tcl
-Tcl library for Shodan
+## Tcl library for Shodan
 
-Currently only search methods implemented.
+### Initialization
+```
+	set s [shodan new <api_key>]
 
-TO DO:
-- Shodan On-Demand Scanning
+```
+
+### Search methods
+#### ip
+```
+	$s ip "1.2.3.4"
+```
+
+#### count
+```
+	$s count "country:PL CentOS" "city"
+
+```
+#### search
+```
+	$s search "country:PL CentOS city:Poznan"
+
+```
+#### ports
+```
+	$s ports
+
+```
+
+### Shodan On-Demand Scanning
+#### protocols
+```
+	$s protocols
+
+```
+#### scan
+```
+	$s scan [list 1.2.3.4]
+
+```
+#### scanStatus
+```
+	$s scanStatus DCabcR7xTnJeuFab
+
+```
+
+## TO DO:
 - Shodan Network Alerts
 - Shodan Directory Methods
 - Shodan Bulk Data
