@@ -69,7 +69,7 @@ oo::class create shodan_api {
     #   ip
     #
     # DESCRIPTION
-    #   Returns all services that have been found on the given host IP.
+    #   Return all services that have been found on the given host IP.
     #
     # ARGUMENTS
     #   ip - ip address to check
@@ -295,6 +295,108 @@ oo::class create shodan_api {
     #******
     method myIp {} {
         set path "$Api_url/tools/myip"
+        set data [list key $Api_key]
+        return [my Execute $path GET $data]
+    }
+
+    #****p* shodan/profile
+    # NAME
+    #   profile
+    #
+    # DESCRIPTION
+    #   Return information about the Shodan account linked to this API key
+    #
+    # ARGUMENTS
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s profile
+    #
+    #******
+    method profile {} {
+        set path "$Api_url/account/profile"
+        set data [list key $Api_key]
+        return [my Execute $path GET $data]
+    }
+
+    #****p* shodan/resolve
+    # NAME
+    #   resolve
+    #
+    # DESCRIPTION
+    #   Look up the IP address for the provided list of hostnames.
+    #
+    # ARGUMENTS
+    #   hostnames - List of hostnames
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s resolve [list google.com bing.com]
+    #
+    #******
+    method resolve {hostnames} {
+        set path "$Api_url/dns/resolve"
+        set data [list key $Api_key hostnames [join $hostnames ,]]
+        return [my Execute $path GET $data]
+    }
+
+    #****p* shodan/reverse
+    # NAME
+    #   reverse
+    #
+    # DESCRIPTION
+    #   Look up the hostnames that have been defined for the given list of IP addresses.
+    #
+    # ARGUMENTS
+    #   hostnames - List of ip addresses
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s reverse [list 74.125.227.230 204.79.197.200]
+    #
+    #******
+    method reverse {ips} {
+        set path "$Api_url/dns/reverse"
+        set data [list key $Api_key ips [join $ips ,]]
+        return [my Execute $path GET $data]
+    }
+
+    #****p* shodan/apiInfo
+    # NAME
+    #   apiInfo
+    #
+    # DESCRIPTION
+    #   Return information about the API plan belonging to the given API key
+    #
+    # ARGUMENTS
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s apiInfo
+    #
+    #******
+    method apiInfo {} {
+        set path "$Api_url/api-info"
         set data [list key $Api_key]
         return [my Execute $path GET $data]
     }

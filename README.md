@@ -51,9 +51,34 @@ $s scanStatus DCabcR7xTnJeuFab
 $s httpHeaders
 
 ```
-### myIp
+#### myIp
 ```
 $s myIp
+
+```
+
+### Account Methods
+#### profile
+```
+$s profile
+
+```
+
+### DNS Methods
+#### resolve
+```
+$s resolve [list google.com bing.com]
+
+```
+#### reverse
+```
+$s reverse [list 74.125.227.230 204.79.197.200]
+```
+
+### API Status Methods
+#### apiInfo
+```
+$s apiInfo
 
 ```
 
@@ -61,8 +86,5 @@ $s myIp
 - Shodan Network Alerts
 - Shodan Directory Methods
 - Shodan Bulk Data
-- Account Methods
-- DNS Methods
-- API Status Methods
 - Experimental Methods
 - Error Handling
