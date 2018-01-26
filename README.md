@@ -95,10 +95,23 @@ $s alertInfo
 ```
 $s deleteAlert 5H0P1PGFLO2ETQ2L
 ```
+### Shodan Directory Methods
+#### query
+```
+$s query 1 votes asc
+```
+#### querySearch
+```
+$s querySearch webcam
+```
 
+### Shodan Bulk Data
+#### data
+```
+$s data
+$s data <dataset>
+```
 
 ## TO DO:
-- Shodan Directory Methods
-- Shodan Bulk Data
-- Experimental Methods
+- Streaming API
 - Error Handling

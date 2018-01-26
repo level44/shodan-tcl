@@ -373,6 +373,117 @@ oo::class create shodan_api {
         return [my Execute $path DELETE $data]
     }
 
+    #****p* shodan/query
+    # NAME
+    #   query
+    #
+    # DESCRIPTION
+    #   List the saved search queries
+    #
+    # ARGUMENTS
+    #   page - page number over results
+    #   sort - votes or timestamp
+    #   order - asc or desc
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s query 1 votes asc
+    #
+    #******
+    method query {{page 0} {sort votes} {order asc}} {
+        set path "$Api_url/shodan/query"
+        set data [list key $Api_key page $page sort $sort order $order]
+        return [my Execute $path GET $data]
+    }
+
+    #****p* shodan/querySearch
+    # NAME
+    #   guerySearch
+    #
+    # DESCRIPTION
+    #   Search the directory of saved search queries.
+    #
+    # ARGUMENTS
+    #   query - string with definition what to find
+    #   page - page number over results
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s querySearch webcam
+    #
+    #******
+    method querySearch {query {page 0}} {
+        set path "$Api_url/shodan/query/search"
+        set data [list key $Api_key query $query page $page]
+        return [my Execute $path GET $data]
+    }
+
+    #****p* shodan/queryTags
+    # NAME
+    #   gueryTags
+    #
+    # DESCRIPTION
+    #   List the most popular tags
+    #
+    # ARGUMENTS
+    #   size - number of tags to display (defult 10)
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s queryTags 20
+    #
+    #******
+    method queryTags {{size 10}} {
+        set path "$Api_url/shodan/query/tags"
+        set data [list key $Api_key size $size]
+        return [my Execute $path GET $data]
+    }
+
+    #****p* shodan/data
+    # NAME
+    #   data
+    #
+    # DESCRIPTION
+    #   Get a list of available datasets or required dataset
+    #
+    # ARGUMENTS
+    #   dataset - optional dataset name
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s data
+    #
+    #******
+    method data {{dataset {}}} {
+        set path "$Api_url/shodan/data"
+        if {$dataset eq {}} {
+            set data [list key $Api_key]
+        } else {
+            set data [list key $Api_key dataset $dataset]
+        }
+        return [my Execute $path GET $data]
+    }
+
 
     #****p* shodan/httpHeaders
     # NAME
