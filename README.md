@@ -106,7 +106,7 @@ $s data <dataset>
 $s streamBanners
 ```
 #### streamAsn
-````
+```
 $s stramAsn [list 3303 32475]
 ```
 #### streamCountries
