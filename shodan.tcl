@@ -31,6 +31,7 @@ oo::class create shodan_api {
     variable Api_key
     variable Debug
     variable Api_url
+    variable Api_stream_url
 
     #****p* shodan/constructor
     # NAME
@@ -56,6 +57,7 @@ oo::class create shodan_api {
         set Api_key $api_key
         set Debug 1
         set Api_url "https://api.shodan.io"
+        set Api_stream_url "https://stream.shodan.io"
     }
 
     # method Validation {args} {
@@ -484,6 +486,139 @@ oo::class create shodan_api {
         return [my Execute $path GET $data]
     }
 
+    #STREAMING API
+    #****p* shodan/streamBanners
+    # NAME
+    #   streamBanners
+    #
+    # DESCRIPTION
+    #   This stream provides ALL of the data that Shodan collects.
+    #
+    # ARGUMENTS
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s streamBanners
+    #
+    #******
+    method streamBanners {{dataset {}}} {
+        set path "$Api_stream_url/shodan/banners"
+        set data [list key $Api_key]
+        return [my Execute $path GET $data]
+    }
+
+    #****p* shodan/streamAsn
+    # NAME
+    #   streamAsn
+    #
+    # DESCRIPTION
+    #   This stream filtered by ASN
+    #
+    # ARGUMENTS
+    #   asn - list of ASNs (for example 3303 32475)
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s stramAsn [list 3303 32475]
+    #
+    #******
+    method streamAsn {{asn {}}} {
+        set path "$Api_stream_url/shodan/asn/[join $asn ,]"
+        set data [list key $Api_key]
+        return [my Execute $path GET $data]
+    }
+
+    #****p* shodan/streamCountries
+    # NAME
+    #   streamCountries
+    #
+    # DESCRIPTION
+    #   This stream filtered by Country
+    #
+    # ARGUMENTS
+    #   countries - list of countries (for example DE US)
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s steramCountries [list DE US]
+    #
+    #******
+    method streamCountries {{countries {}}} {
+        set path "$Api_stream_url/shodan/countries/[join $countries ,]"
+        set data [list key $Api_key]
+        return [my Execute $path GET $data]
+    }
+
+    #****p* shodan/streamPorts
+    # NAME
+    #   streamPorts
+    #
+    # DESCRIPTION
+    #   This stream filtered by Ports
+    #
+    # ARGUMENTS
+    #   ports - list of ports (for example 1434 27017 6379)
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s streamPorts [list 1434 27017 6379]
+    #
+    #******
+    method streamPorts {{ports {}}} {
+        set path "$Api_stream_url/shodan/ports/[join $ports ,]"
+        set data [list key $Api_key]
+        return [my Execute $path GET $data]
+    }
+
+    #****p* shodan/streamAlert
+    # NAME
+    #   streamAlert
+    #
+    # DESCRIPTION
+    #   Stream all or defined allert
+    #
+    # ARGUMENTS
+    #   alert - optional allert id
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s streamAlert
+    #
+    #******
+    method streamAlert {{alert {}}} {
+        if {$alert ne {}} {
+            set path "$Api_stream_url/shodan/alert/$alert"
+        } else {
+            set path "$Api_stream_url/shodan/alert"
+        }
+        set data [list key $Api_key]
+        return [my Execute $path GET $data]
+    }
 
     #****p* shodan/httpHeaders
     # NAME
@@ -662,7 +797,7 @@ oo::class create shodan_api {
         my Debug "Called"
         switch $method {
             GET {
-                my Debug "Executed for $path[http::formatQuery {*}?$data]"
+                my Debug "Executed for $path?[http::formatQuery {*}$data]"
                 set tok [http::geturl $path?[my FormatQuery $data $mode] -type text/json -method $method]
             }
             POST {

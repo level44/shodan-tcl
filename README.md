@@ -100,7 +100,27 @@ $s querySearch webcam
 $s data
 $s data <dataset>
 ```
+### Streaming API
+#### streamBanners
+```
+$s streamBanners
+```
+#### streamAsn
+````
+$s stramAsn [list 3303 32475]
+```
+#### streamCountries
+```
+$s steramCountries [list DE US]
+```
+#### streamPorts
+```
+$s streamPorts [list 1434 27017 6379]
+```
+#### streamAlert
+```
+$s streamAlert
+```
 
 ## TO DO:
-- Streaming API
 - Error Handling
