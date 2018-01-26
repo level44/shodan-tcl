@@ -58,6 +58,41 @@ oo::class create shodan_api {
         set Api_url "https://api.shodan.io"
     }
 
+    # method Validation {args} {
+    #     my Debug "Validation called for [self target] with args: $args"
+    #     set status 0
+    #     set msg {}
+    #     switch [self target] {
+    #         "ip" {
+
+    #         }
+    #         "count" {
+
+    #         }
+    #         "search" {
+
+    #         }
+    #         "scan" {
+
+    #         }
+    #         "scanStatus" {
+
+    #         }
+    #         "resolve" {
+
+    #         }
+    #         "reverse" {
+
+    #         }
+    #     }
+    #     if {$status eq 0} {
+    #         next {*}$args
+    #     } else {
+    #         #break call due to wrong parameters
+    #         return [list $status $msg]
+    #     }
+    # }
+
     method Debug {str} {
         if {$Debug} {
             puts $str
@@ -249,6 +284,96 @@ oo::class create shodan_api {
         return [my Execute $path GET $data]
     }
 
+    #****p* shodan/alert
+    # NAME
+    #   alert
+    #
+    # DESCRIPTION
+    #   Create a network alert for a defined IP/ netblock
+    #   which can be used to subscribe to changes/ events
+    #   that are discovered within that range.
+    #
+    # ARGUMENTS
+    #   name - alert name
+    #   filters - criteria for triggering alert (currently only ip filter is supported)
+    #   expires - optional number of seconds that the alert should be active
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s alert test_alert "8.8.0.0" 120
+    #
+    #******
+    method alert {name ip {expires {0}}} {
+        set path "$Api_url/shodan/alert?key=$Api_key"
+        set data "{\"name\":\"$name\",\"expires\":$expires,\"filters\":{\"ip\": \[\"$ip\"\]}}"
+        my Debug $data
+        return [my Execute $path POST $data raw]
+    }
+
+    #****p* shodan/alertInfo
+    # NAME
+    #   alertInfo
+    #
+    # DESCRIPTION
+    #   Return the information about a specific network alert or
+    #   return the informmation about all network alerts
+    #
+    # ARGUMENTS
+    #   id - allert id (default empty)
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s alertInfo
+    #
+    #******
+    method alertInfo {{id {}}} {
+        set data [list key $Api_key]
+        if {$id ne {}} {
+            set path "$Api_url/shodan/alert/$id/info"
+        } else {
+            set path "$Api_url/shodan/alert/info"
+        }
+        return [my Execute $path GET $data]
+    }
+
+    #****p* shodan/deleteAlert
+    # NAME
+    #   deleteAlert
+    #
+    # DESCRIPTION
+    #   Delete allert (supported only with tcl 8.6)
+    #
+    # ARGUMENTS
+    #   id - alert id
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s deleteAlert 5H0P1PGFLO2ETQ2L
+    #
+    #******
+    method deleteAlert {id} {
+        set path "$Api_url/shodan/alert/$id\?key=$Api_key"
+        set data {}
+        my Debug $data
+        return [my Execute $path DELETE $data]
+    }
+
+
     #****p* shodan/httpHeaders
     # NAME
     #   httpHeaders
@@ -422,25 +547,32 @@ oo::class create shodan_api {
     # USAGE
     #
     #******
-    method Execute {path method data} {
+    method Execute {path method data {mode {format}}} {
         my Debug "Called"
         switch $method {
             GET {
                 my Debug "Executed for $path[http::formatQuery {*}?$data]"
-                set tok [http::geturl $path?[http::formatQuery {*}$data] -type text/json -method $method]
+                set tok [http::geturl $path?[my FormatQuery $data $mode] -type text/json -method $method]
             }
             POST {
                 my Debug "POST method"
                 my Debug "$path\n$data"
-                set tok [http::geturl $path -query [http::formatQuery {*}$data] -type application/json -method $method]
+                set tok [http::geturl $path -query [my FormatQuery $data $mode] -type application/json -method $method]
             }
             PUT {
                 my Debug "PUT method"
                 my Debug "$path\n$data"
-                set tok [http::geturl $path -query [http::formatQuery {*}$data -type application/json -method $method]
+                set tok [http::geturl $path -query [my FormatQuery $data $mode] -type application/json -method $method]
+            }
+            DELETE {
+                my Debug "DELETE method"
+                my Debug "$path\n$data"
+                set tok [http::geturl $path -query [my FormatQuery $data $mode] -type application/json -method $method]
             }
         }
         set ret [ http::data $tok ]
+        my Debug "Response:"
+        my Debug $ret
         ::http::cleanup $tok
         if {[catch {set ret [::json::json2dict $ret]}]} {
             return [list -1 "Not possible to parse json"]
@@ -448,4 +580,14 @@ oo::class create shodan_api {
             return [list 0 $ret]
         }
     }
+
+    method FormatQuery {data mode} {
+        if {$mode eq "format"} {
+            return [http::formatQuery {*}$data]
+        } else {
+            return $data
+        }
+    }
+
+    #filter Validation
 }

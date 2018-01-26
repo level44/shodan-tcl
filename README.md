@@ -82,8 +82,22 @@ $s apiInfo
 
 ```
 
+### Shodan Network Alerts
+#### alert
+```
+$s alert test_alert "8.8.0.0" 120
+```
+#### alertInfo
+```
+$s alertInfo
+```
+#### alertDelete
+```
+$s deleteAlert 5H0P1PGFLO2ETQ2L
+```
+
+
 ## TO DO:
-- Shodan Network Alerts
 - Shodan Directory Methods
 - Shodan Bulk Data
 - Experimental Methods
