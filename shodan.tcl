@@ -22,7 +22,7 @@
 #
 #
 
-package provide shodan 0.0.1
+package provide shodan 1.0.0
 
 package require http
 package require TclOO
