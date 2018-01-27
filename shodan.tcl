@@ -54,7 +54,7 @@ oo::class create shodan {
     #******
     constructor {api_key} {
         set Api_key $api_key
-        set Debug 1
+        set Debug 0
     }
 
     # method Validation {args} {
