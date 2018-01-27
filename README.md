@@ -1,126 +1,155 @@
+
 # shodan-tcl
 ## Tcl library for Shodan
+Shodan is advanced search engine for Internet connected devices.
+This library is TCL interface to [Shodan API](https://developer.shodan.io/api).
 
-### Initialization
+Library currently supports:
+- Search API
+- Streaming API
+
+## Requirements
+Library requires:
+- Shodan API key
+- TCL 8.6
+or
+- TCL 8.5 + TclOO packages installed
+## Instalation
+Repository content shall be placed in the TCL library path
+
+## Loading library
 ```
-set s [shodan new <api_key>]
+package require shodan
+```
+
+## Examples
+### Initialization of Shodan API
+```
+set s_api [shodan_api new <api_key>]
+```
+
+### Initialization of Shodan streaming API
+```
+set s_stream_api [shodan_stream_api new <api_key>]
 ```
 
 ### Search methods
 #### ip
 ```
-$s ip "1.2.3.4"
+$s_api ip "1.2.3.4"
 ```
 
 #### count
 ```
-$s count "country:PL CentOS" "city"
+$s_api count "country:PL CentOS" "city"
 ```
 #### search
 ```
-$s search "country:PL CentOS city:Poznan"
+$s_api search "country:PL CentOS city:Poznan"
 ```
 #### ports
 ```
-$s ports
+$s_api ports
 ```
 
 ### Shodan On-Demand Scanning
 #### protocols
 ```
-$s protocols
+$s_api protocols
 ```
 #### scan
 ```
-$s scan [list 1.2.3.4]
+$s_api scan [list 1.2.3.4]
 ```
 #### scanStatus
 ```
-$s scanStatus DCabcR7xTnJeuFab
+$s_api scanStatus DCabcR7xTnJeuFab
 ```
 ### Utility Methods
 #### httpHeaders
 ```
-$s httpHeaders
+$s_api httpHeaders
 
 ```
 #### myIp
 ```
-$s myIp
+$s_api myIp
 ```
 
 ### Account Methods
 #### profile
 ```
-$s profile
+$s_api profile
 ```
 
 ### DNS Methods
 #### resolve
 ```
-$s resolve [list google.com bing.com]
+$s_api resolve [list google.com bing.com]
 ```
 #### reverse
 ```
-$s reverse [list 74.125.227.230 204.79.197.200]
+$s_api reverse [list 74.125.227.230 204.79.197.200]
 ```
 
 ### API Status Methods
 #### apiInfo
 ```
-$s apiInfo
+$s_api apiInfo
 ```
 
 ### Shodan Network Alerts
 #### alert
 ```
-$s alert test_alert "8.8.0.0" 120
+$s_api alert test_alert "8.8.0.0" 120
 ```
 #### alertInfo
 ```
-$s alertInfo
+$s_api alertInfo
 ```
 #### alertDelete
 ```
-$s deleteAlert 5H0P1PGFLO2ETQ2L
+$s_api deleteAlert 5H0P1PGFLO2ETQ2L
 ```
 ### Shodan Directory Methods
 #### query
 ```
-$s query 1 votes asc
+$s_api query 1 votes asc
 ```
 #### querySearch
 ```
-$s querySearch webcam
+$s_api querySearch webcam
 ```
 
 ### Shodan Bulk Data
 #### data
 ```
-$s data
-$s data <dataset>
+$s_api data
+$s_api data <dataset>
 ```
-### Streaming API
+
+### Shodan streaming API
 #### streamBanners
 ```
-$s streamBanners
+$s_stream_api streamBanners
 ```
 #### streamAsn
 ```
-$s stramAsn [list 3303 32475]
+$s_stream_api stramAsn [list 3303 32475]
 ```
 #### streamCountries
 ```
-$s steramCountries [list DE US]
+$s_stream_api steramCountries [list DE US]
 ```
 #### streamPorts
 ```
-$s streamPorts [list 1434 27017 6379]
+$s_stream_api streamPorts [list 1434 27017 6379]
 ```
 #### streamAlert
 ```
-$s streamAlert
+$s_stream_api streamAlert
 ```
 
 ## TO DO:
-- Error Handling
+- Better error handling
+- Exploits API

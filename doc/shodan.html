@@ -1,0 +1,682 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html  xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1" />
+<link rel="stylesheet" href="./shodan.css" type="text/css" />
+<title>./../doc/shodan</title>
+<!-- Source: ./../ -->
+<!-- Generated with ROBODoc Version 4.99.41 (Feb  6 2011) -->
+</head>
+<body>
+<div id="logo">
+<a name="robo_top_of_doc"></a>
+</div> <!-- logo -->
+<h3>TABLE OF CONTENTS</h3>
+<ul>
+<li><a href="#robo0">/shodan_api</a></li>
+<li><a href="#robo1">shodan/constructor</a></li>
+<li><a href="#robo2">shodan_api/ip</a></li>
+<li><a href="#robo3">shodan_api/count</a></li>
+<li><a href="#robo4">shodan_api/search</a></li>
+<li><a href="#robo5">shodan_api/ports</a></li>
+<li><a href="#robo6">shodan_api/protocols</a></li>
+<li><a href="#robo7">shodan_api/scan</a></li>
+<li><a href="#robo8">shodan_api/scanStatus</a></li>
+<li><a href="#robo9">shodan_api/alert</a></li>
+<li><a href="#robo10">shodan_api/alertInfo</a></li>
+<li><a href="#robo11">shodan_api/deleteAlert</a></li>
+<li><a href="#robo12">shodan_api/query</a></li>
+<li><a href="#robo13">shodan_api/querySearch</a></li>
+<li><a href="#robo14">shodan_api/queryTags</a></li>
+<li><a href="#robo15">shodan_api/data</a></li>
+<li><a href="#robo16">shodan_api/httpHeaders</a></li>
+<li><a href="#robo17">shodan_api/myIp</a></li>
+<li><a href="#robo18">shodan_api/profile</a></li>
+<li><a href="#robo19">shodan_api/resolve</a></li>
+<li><a href="#robo20">shodan_api/reverse</a></li>
+<li><a href="#robo21">shodan_api/apiInfo</a></li>
+<li><a href="#robo22">shodan_stream_api/streamBanners</a></li>
+<li><a href="#robo23">shodan_stream_api/streamAsn</a></li>
+<li><a href="#robo24">shodan_stream_api/streamCountries</a></li>
+<li><a href="#robo25">shodan_stream_api/streamPorts</a></li>
+<li><a href="#robo26">shodan_stream_api/streamAlert</a></li>
+</ul>
+<hr />
+<a name="2fshodan5fapi"></a>
+<a name="robo0"></a><h2>/shodan_api [ Modules ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ Modules ]</p>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Library allows to comunicate with Shodan database
+
+ Examples
+</pre>
+
+<hr />
+<a name="shodan2fconstructor"></a>
+<a name="robo1"></a><h2>shodan/constructor [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>constructor</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Create shodan object
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   api_key - shodan api key
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   Object handler
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   set s [shodan &lt;api_key&gt;]
+</pre>
+
+<hr />
+<a name="shodan5fapi2fip"></a>
+<a name="robo2"></a><h2>shodan_api/ip [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="#robo0">shodan_api</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>ip</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Return all services that have been found on the given host IP.
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   <strong>ip</strong> - <strong>ip</strong> address to check
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>ip</strong> "1.2.3.4"
+</pre>
+
+<hr />
+<a name="shodan5fapi2fcount"></a>
+<a name="robo3"></a><h2>shodan_api/count [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="#robo0">shodan_api</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>count</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Shearch for provided <a href="#robo12">query</a> and <strong>count</strong> results.
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   <a href="#robo12">query</a> - string contains <a href="#robo12">query</a> to <a href="#robo4">search</a>
+   facets - a comma-separated list of properties to get summary information on
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>count</strong> "country:PL CentOS" "city"
+</pre>
+
+<hr />
+<a name="shodan5fapi2fsearch"></a>
+<a name="robo4"></a><h2>shodan_api/search [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="#robo0">shodan_api</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>search</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Shearch for provided <a href="#robo12">query</a>.
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   <a href="#robo12">query</a> - string contains <a href="#robo12">query</a> to <strong>search</strong>
+   facets - a comma-separated list of properties to get summary information on
+   page - the page number to page through results 100 at a time (default: 1)
+   minify - True or False; whether or not to truncate some of the larger fields (default: True)
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>search</strong> "country:PL CentOS city:Poznan"
+</pre>
+
+<hr />
+<a name="shodan5fapi2fports"></a>
+<a name="robo5"></a><h2>shodan_api/ports [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="#robo0">shodan_api</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>ports</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Return a list of port numbers that the crawlers are looking for.
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>ports</strong>
+</pre>
+
+<hr />
+<a name="shodan5fapi2fprotocols"></a>
+<a name="robo6"></a><h2>shodan_api/protocols [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="#robo0">shodan_api</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>protocols</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Return all <strong>protocols</strong> that can be used when performing on-demand Internet scans
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>protocols</strong>
+</pre>
+
+<hr />
+<a name="shodan5fapi2fscan"></a>
+<a name="robo7"></a><h2>shodan_api/scan [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="#robo0">shodan_api</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>scan</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Request Shodan to crawl an IP/ netblock
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   ips - list of ips to <strong>scan</strong>
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>scan</strong> [list 1.2.3.4]
+</pre>
+
+<hr />
+<a name="shodan5fapi2fscanStatus"></a>
+<a name="robo8"></a><h2>shodan_api/scanStatus [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="#robo0">shodan_api</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>scanStatus</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Request the status of a <a href="#robo7">scan</a> request
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   id - <a href="#robo7">scan</a> id
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>scanStatus</strong> DCabcR7xTnJeuFab
+</pre>
+
+<hr />
+<a name="shodan5fapi2falert"></a>
+<a name="robo9"></a><h2>shodan_api/alert [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="#robo0">shodan_api</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>alert</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Create a network <strong>alert</strong> for a defined IP/ netblock
+   which can be used to subscribe to changes/ events
+   that are discovered within that range.
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   name - <strong>alert</strong> name
+   filters - criteria for triggering <strong>alert</strong> (currently only <a href="#robo2">ip</a> filter is supported)
+   expires - optional number of seconds that the <strong>alert</strong> should be active
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>alert</strong> test_alert "8.8.0.0" 120
+</pre>
+
+<hr />
+<a name="shodan5fapi2falertInfo"></a>
+<a name="robo10"></a><h2>shodan_api/alertInfo [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="#robo0">shodan_api</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>alertInfo</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Return the information about a specific network <a href="#robo9">alert</a> or
+   return the informmation about all network alerts
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   id - allert id (default empty)
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>alertInfo</strong>
+</pre>
+
+<hr />
+<a name="shodan5fapi2fdeleteAlert"></a>
+<a name="robo11"></a><h2>shodan_api/deleteAlert [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="#robo0">shodan_api</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>deleteAlert</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Delete allert (supported only with tcl 8.6)
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   id - <a href="#robo9">alert</a> id
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>deleteAlert</strong> 5H0P1PGFLO2ETQ2L
+</pre>
+
+<hr />
+<a name="shodan5fapi2fquery"></a>
+<a name="robo12"></a><h2>shodan_api/query [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="#robo0">shodan_api</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>query</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   List the saved <a href="#robo4">search</a> queries
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   page - page number over results
+   sort - votes or timestamp
+   order - asc or desc
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>query</strong> 1 votes asc
+</pre>
+
+<hr />
+<a name="shodan5fapi2fquerySearch"></a>
+<a name="robo13"></a><h2>shodan_api/querySearch [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="#robo0">shodan_api</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   guerySearch
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Search the directory of saved <a href="#robo4">search</a> queries.
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   <a href="#robo12">query</a> - string with definition what to find
+   page - page number over results
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>querySearch</strong> webcam
+</pre>
+
+<hr />
+<a name="shodan5fapi2fqueryTags"></a>
+<a name="robo14"></a><h2>shodan_api/queryTags [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="#robo0">shodan_api</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   gueryTags
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   List the most popular tags
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   size - number of tags to display (defult 10)
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>queryTags</strong> 20
+</pre>
+
+<hr />
+<a name="shodan5fapi2fdata"></a>
+<a name="robo15"></a><h2>shodan_api/data [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="#robo0">shodan_api</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>data</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Get a list of available datasets or required dataset
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   dataset - optional dataset name
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>data</strong>
+</pre>
+
+<hr />
+<a name="shodan5fapi2fhttpHeaders"></a>
+<a name="robo16"></a><h2>shodan_api/httpHeaders [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="#robo0">shodan_api</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>httpHeaders</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Return the HTTP headers that your client sends when connecting to a webserver.
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>httpHeaders</strong>
+</pre>
+
+<hr />
+<a name="shodan5fapi2fmyIp"></a>
+<a name="robo17"></a><h2>shodan_api/myIp [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="#robo0">shodan_api</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>myIp</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Return my current IP address as seen from the Internet.
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>myIp</strong>
+</pre>
+
+<hr />
+<a name="shodan5fapi2fprofile"></a>
+<a name="robo18"></a><h2>shodan_api/profile [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="#robo0">shodan_api</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>profile</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Return information about the Shodan account linked to this API key
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>profile</strong>
+</pre>
+
+<hr />
+<a name="shodan5fapi2fresolve"></a>
+<a name="robo19"></a><h2>shodan_api/resolve [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="#robo0">shodan_api</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>resolve</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Look up the IP address for the provided list of hostnames.
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   hostnames - List of hostnames
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>resolve</strong> [list google.com bing.com]
+</pre>
+
+<hr />
+<a name="shodan5fapi2freverse"></a>
+<a name="robo20"></a><h2>shodan_api/reverse [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="#robo0">shodan_api</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>reverse</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Look up the hostnames that have been defined for the given list of IP addresses.
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   hostnames - List of <a href="#robo2">ip</a> addresses
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>reverse</strong> [list 74.125.227.230 204.79.197.200]
+</pre>
+
+<hr />
+<a name="shodan5fapi2fapiInfo"></a>
+<a name="robo21"></a><h2>shodan_api/apiInfo [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ <a href="#robo0">shodan_api</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>apiInfo</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Return information about the API plan belonging to the given API key
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>apiInfo</strong>
+</pre>
+
+<hr />
+<a name="shodan5fstream5fapi2fstreamBanners"></a>
+<a name="robo22"></a><h2>shodan_stream_api/streamBanners [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>streamBanners</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   This stream provides ALL of the <a href="#robo15">data</a> that Shodan collects.
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>streamBanners</strong>
+</pre>
+
+<hr />
+<a name="shodan5fstream5fapi2fstreamAsn"></a>
+<a name="robo23"></a><h2>shodan_stream_api/streamAsn [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>streamAsn</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   This stream filtered by ASN
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   asn - list of ASNs (for example 3303 32475)
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s stramAsn [list 3303 32475]
+</pre>
+
+<hr />
+<a name="shodan5fstream5fapi2fstreamCountries"></a>
+<a name="robo24"></a><h2>shodan_stream_api/streamCountries [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>streamCountries</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   This stream filtered by Country
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   countries - list of countries (for example DE US)
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s steramCountries [list DE US]
+</pre>
+
+<hr />
+<a name="shodan5fstream5fapi2fstreamPorts"></a>
+<a name="robo25"></a><h2>shodan_stream_api/streamPorts [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>streamPorts</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   This stream filtered by Ports
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   <a href="#robo5">ports</a> - list of <a href="#robo5">ports</a> (for example 1434 27017 6379)
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>streamPorts</strong> [list 1434 27017 6379]
+</pre>
+
+<hr />
+<a name="shodan5fstream5fapi2fstreamAlert"></a>
+<a name="robo26"></a><h2>shodan_stream_api/streamAlert [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>streamAlert</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Stream all or defined allert
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   <a href="#robo9">alert</a> - optional allert id
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>streamAlert</strong>
+</pre>
+
+<div id="footer">
+<p>Generated from ./../ with <a href="http://www.xs4all.nl/~rfsber/Robo/robodoc.html">ROBODoc</a> V4.99.41 on Sat Jan 27 2018 15:57:25
+</p>
+</div> <!-- footer -->
+</body>
+</html>
