@@ -2,11 +2,12 @@
 # shodan-tcl
 ## Tcl library for Shodan
 Shodan is advanced search engine for Internet connected devices.
-This library is TCL interface to [Shodan API](https://developer.shodan.io/api).
+This library is a TCL interface to [Shodan API](https://developer.shodan.io/api).
 
 Library currently supports:
 - Search API
 - Streaming API
+- Exploits API
 
 ## Requirements
 Library requires:
