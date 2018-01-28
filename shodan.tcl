@@ -3,7 +3,7 @@
 #
 #
 #   ----------------------------------------------------------------------------
-#   Revision: 1.0.0
+#   Revision: 1.1.0
 #   Author: level44
 #
 #   ----------------------------------------------------------------------------
@@ -14,7 +14,10 @@
 # Basic examples
 #   set s_api [shodan_api new <api_key>]
 #   set s_stream_api [shodan_stream_api new <api_key>]
-#
+#   set s_exploits_api [shodan_exploits_api new <api_key>]
+#   $s_api count "country:PL hdfs" "city"
+#   $s_stream_api streamBanners
+#   $s_exploits_api count "platform:freebsd Proftpd"
 #
 #******
 ################################################################################
@@ -22,7 +25,7 @@
 #
 #
 
-package provide shodan 1.0.0
+package provide shodan 1.1.0
 
 package require http
 package require TclOO
@@ -158,14 +161,23 @@ oo::class create shodan {
                 set tok [http::geturl $path -query [my FormatQuery $data $mode] -type application/json -method $method]
             }
         }
-        set ret [ http::data $tok ]
-        my Debug "Response:"
-        my Debug $ret
-        ::http::cleanup $tok
-        if {[catch {set ret [::json::json2dict $ret]}]} {
-            return [list -1 "Not possible to parse json"]
+        set ncode [::http::ncode $tok]
+        my Debug "Request response ncode $ncode"
+        if {$ncode eq 401} {
+            ::http::cleanup $tok
+            return [list -1 [dict create error "Not authorized"]]
+        } elseif {$ncode ne 200} {
+            return [list -1 [dict create error "Return code $ncode"]]
         } else {
-            return [list 0 $ret]
+            set ret [ http::data $tok ]
+            my Debug "Response:"
+            my Debug $ret
+            ::http::cleanup $tok
+            if {[catch {set ret [::json::json2dict $ret]}]} {
+                return [list -1 "Not possible to parse json"]
+            } else {
+                return [list 0 $ret]
+            }
         }
     }
 
@@ -254,7 +266,7 @@ oo::class create shodan_api {
     #   $s count "country:PL CentOS" "city"
     #
     #******
-    method count {query facets} {
+    method count {query {facets {}}} {
         set path "$Api_url/shodan/host/count"
         return [my Execute $path GET [list key $Api_key query $query facets $facets]]
     }
@@ -888,5 +900,74 @@ oo::class create shodan_stream_api {
         }
         set data [list key $Api_key]
         return [my Execute $path GET $data]
+    }
+}
+
+oo::class create shodan_exploits_api {
+    superclass shodan
+    variable Api_key
+    variable Debug
+    variable Api_url
+
+    constructor {api_key} {
+        set Api_url "https://exploits.shodan.io/api/"
+        next $api_key
+    }
+
+    #****p* shodan_exploits/search
+    # NAME
+    #   search
+    #
+    # DESCRIPTION
+    #   Shearch for provided query.
+    #
+    # ARGUMENTS
+    #   query - string contains query to search
+    #   facets - a comma-separated list of properties to get summary information on
+    #   page - the page number to page through results 100 at a time (default: 1)
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s search "Proftpd"
+    #
+    #******
+    method search {query {facets {}} {page 1}} {
+        set path "$Api_url/search"
+        set data [list key $Api_key query $query page $page]
+        if {$facets != {}} {
+            lappend data facets $facets
+        }
+        return [my Execute $path GET $data]
+    }
+
+    #****p* shodan_exploits/count
+    # NAME
+    #   count
+    #
+    # DESCRIPTION
+    #   Shearch for provided query and count results.
+    #
+    # ARGUMENTS
+    #   query - string contains query to search
+    #   facets - a comma-separated list of properties to get summary information on
+    #
+    # RESULT
+    #   2 element List with returnCode and dictionary as result
+    #       first element - error code
+    #           >0 OK
+    #       second element - dictionary
+    #
+    # USAGE
+    #   $s count "country:PL CentOS" "city"
+    #
+    #******
+    method count {query {facets {}}} {
+        set path "$Api_url/count"
+        return [my Execute $path GET [list key $Api_key query $query facets $facets]]
     }
 }

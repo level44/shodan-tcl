@@ -43,6 +43,8 @@
 <li><a href="#robo24">shodan_stream_api/streamCountries</a></li>
 <li><a href="#robo25">shodan_stream_api/streamPorts</a></li>
 <li><a href="#robo26">shodan_stream_api/streamAlert</a></li>
+<li><a href="#robo27">shodan_exploits/search</a></li>
+<li><a href="#robo28">shodan_exploits/count</a></li>
 </ul>
 <hr />
 <a name="2fshodan5fapi"></a>
@@ -52,7 +54,13 @@
 <p class="item_name">DESCRIPTION</p>
 <pre>   Library allows to comunicate with Shodan database
 
- Examples
+ Basic examples
+   set s_api [<strong>shodan_api</strong> new &lt;api_key&gt;]
+   set s_stream_api [shodan_stream_api new &lt;api_key&gt;]
+   set s_exploits_api [shodan_exploits_api new &lt;api_key&gt;]
+   $s_api <a href="#robo28">count</a> "country:PL hdfs" "city"
+   $s_stream_api <a href="#robo22">streamBanners</a>
+   $s_exploits_api <a href="#robo28">count</a> "platform:freebsd Proftpd"
 </pre>
 
 <hr />
@@ -674,8 +682,59 @@
 <pre class="source">    #   $s <strong>streamAlert</strong>
 </pre>
 
+<hr />
+<a name="shodan5fexploits2fsearch"></a>
+<a name="robo27"></a><h2>shodan_exploits/search [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>search</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Shearch for provided <a href="#robo12">query</a>.
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   <a href="#robo12">query</a> - string contains <a href="#robo12">query</a> to <strong>search</strong>
+   facets - a comma-separated list of properties to get summary information on
+   page - the page number to page through results 100 at a time (default: 1)
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>search</strong> "Proftpd"
+</pre>
+
+<hr />
+<a name="shodan5fexploits2fcount"></a>
+<a name="robo28"></a><h2>shodan_exploits/count [ Procedures ]</h2>
+
+<p>[ <a href="#robo_top_of_doc">Top</a> ] [ Procedures ]</p>
+<p class="item_name">NAME</p>
+<pre>   <strong>count</strong>
+</pre>
+<p class="item_name">DESCRIPTION</p>
+<pre>   Shearch for provided <a href="#robo12">query</a> and <strong>count</strong> results.
+</pre>
+<p class="item_name">ARGUMENTS</p>
+<pre>   <a href="#robo12">query</a> - string contains <a href="#robo12">query</a> to <a href="#robo4">search</a>
+   facets - a comma-separated list of properties to get summary information on
+</pre>
+<p class="item_name">RESULT</p>
+<pre>   2 element List with returnCode and dictionary as result
+       first element - error code
+           &gt;0 OK
+       second element - dictionary
+</pre>
+<p class="item_name">USAGE</p>
+<pre class="source">    #   $s <strong>count</strong> "country:PL CentOS" "city"
+</pre>
+
 <div id="footer">
-<p>Generated from ./../ with <a href="http://www.xs4all.nl/~rfsber/Robo/robodoc.html">ROBODoc</a> V4.99.41 on Sat Jan 27 2018 15:57:25
+<p>Generated from ./../ with <a href="http://www.xs4all.nl/~rfsber/Robo/robodoc.html">ROBODoc</a> V4.99.41 on Sun Jan 28 2018 14:33:59
 </p>
 </div> <!-- footer -->
 </body>

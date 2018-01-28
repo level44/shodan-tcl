@@ -33,6 +33,11 @@ set s_api [shodan_api new <api_key>]
 set s_stream_api [shodan_stream_api new <api_key>]
 ```
 
+### Initialization of Shodan streaming API
+```
+set s_exploits_api [shodan_exploits_api new <api_key>]
+```
+
 ### Search methods
 #### ip
 ```
@@ -150,6 +155,13 @@ $s_stream_api streamPorts [list 1434 27017 6379]
 $s_stream_api streamAlert
 ```
 
-## TO DO:
-- Better error handling
-- Exploits API
+### Shodan exploits API
+#### count
+```
+$s_exploits_api count "Proftpd"
+```
+
+#### search
+```
+$s_exploits_api search "Proftpd"
+```
